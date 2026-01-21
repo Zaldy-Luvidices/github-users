@@ -9,21 +9,25 @@ import com.test.githubusers.R
 import com.test.githubusers.model.UserModel
 
 class UsersListAdapter(
-    private var users: List<UserModel>
+    private var users: List<UserModel>,
+    private val onUserClick: (String) -> Unit
 ) : RecyclerView.Adapter<UsersListAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val loginText: TextView = view.findViewById(R.id.txtUserLogin);
+        val loginText: TextView = view.findViewById(R.id.txtUserLogin)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_list_user, parent, false);
-        return ViewHolder(view);
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_list_user, parent, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = users[position]
-        holder.loginText.text = user.login;
+        holder.loginText.text = user.login
+        holder.itemView.setOnClickListener {
+            onUserClick(user.login)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -31,7 +35,7 @@ class UsersListAdapter(
     }
 
     fun updateItems(newUsers: List<UserModel>) {
-        val size = this.users.size;
+        val size = this.users.size
         this.users = emptyList()
         notifyItemRangeRemoved(0, size)
         this.users = newUsers
