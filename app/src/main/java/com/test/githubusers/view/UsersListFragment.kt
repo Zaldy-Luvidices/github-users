@@ -42,12 +42,12 @@ class UsersListFragment : Fragment(R.layout.fragment_users_list) {
 
         usersViewModel.users.observe(viewLifecycleOwner) {
             pgbLoading.visibility = View.GONE
-            swipeRefresh.isRefreshing = false;
+            swipeRefresh.isRefreshing = false
             adapter.updateItems(it)
         }
         usersViewModel.error.observe(viewLifecycleOwner) { message ->
             pgbLoading.visibility = View.GONE
-            swipeRefresh.isRefreshing = false;
+            swipeRefresh.isRefreshing = false
             Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
         }
         pgbLoading.visibility = View.VISIBLE
