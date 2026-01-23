@@ -7,6 +7,10 @@ android {
     namespace = "com.test.githubusers"
     compileSdk = 35
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         applicationId = "com.test.githubusers"
         minSdk = 24
@@ -15,6 +19,12 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField(
+            "String",
+            "GITHUB_TOKEN",
+            "\"${project.findProperty("github.token") ?: ""}\""
+        )
     }
 
     buildTypes {
@@ -50,4 +60,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.4")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.4")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
+    implementation("androidx.fragment:fragment-ktx:1.8.5")
+    implementation("io.coil-kt:coil:2.6.0")
 }

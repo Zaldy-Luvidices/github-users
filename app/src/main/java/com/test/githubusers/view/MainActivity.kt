@@ -10,7 +10,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         super.onCreate(savedInstanceState)
         setSupportActionBar(findViewById(R.id.toolbar))
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(R.id.fragmentMain, UsersListFragment()).commit()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentMain, UsersListFragment())
+                .commit()
         }
     }
 }
