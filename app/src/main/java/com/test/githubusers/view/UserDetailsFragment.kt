@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import coil.load
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.test.githubusers.R
 import com.test.githubusers.model.UserDetailModel
 import com.test.githubusers.viewmodel.MainSharedViewModel
@@ -30,6 +31,7 @@ class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
     private lateinit var txtFollowing: TextView
     private lateinit var txtGithubLink: TextView
     private lateinit var txtBlog: TextView
+    private lateinit var pgbLoading: CircularProgressIndicator
 
     private val usersViewModel: UsersViewModel by viewModels()
     private val sharedViewModel: MainSharedViewModel by activityViewModels()
@@ -48,6 +50,7 @@ class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
         txtFollowing = view.findViewById(R.id.txtFollowing)
         txtGithubLink = view.findViewById(R.id.txtGithubLink)
         txtBlog = view.findViewById(R.id.txtBlog)
+        pgbLoading = view.findViewById(R.id.pgbLoading)
 
         usersViewModel.userDetails.observe(viewLifecycleOwner) {
             this.loadDetails(it)
@@ -56,6 +59,7 @@ class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
             Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
         }
         sharedViewModel.selectedUserLogin.observe(viewLifecycleOwner) { userLogin ->
+            pgbLoading.visibility = View.VISIBLE
             usersViewModel.loadUserDetails(userLogin)
         }
     }
@@ -83,6 +87,7 @@ class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
         } else {
             txtBlog.isVisible = false
         }
+        pgbLoading.visibility = View.GONE
     }
 
     private fun openUrl(url: String) {
