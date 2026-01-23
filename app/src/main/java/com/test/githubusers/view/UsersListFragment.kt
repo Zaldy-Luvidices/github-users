@@ -22,7 +22,8 @@ class UsersListFragment : Fragment(R.layout.fragment_users_list) {
         val adapter = UsersListAdapter(emptyList()) { userLogin ->
             sharedViewModel.selectUser(userLogin)
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentMain, UserDetailsFragment())
+                .add(R.id.fragmentMain, UserDetailsFragment())
+                .hide(this)
                 .addToBackStack(null)
                 .commit()
         }
