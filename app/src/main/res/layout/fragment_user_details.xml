@@ -18,11 +18,12 @@
             android:layout_height="wrap_content"
             android:padding="16dp">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imgAvatar"
                 android:layout_width="96dp"
                 android:layout_height="96dp"
                 android:scaleType="centerCrop"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:contentDescription="@string/user_avatar_cd" />

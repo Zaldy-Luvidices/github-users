@@ -56,6 +56,7 @@ class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
             this.loadDetails(it)
         }
         usersViewModel.error.observe(viewLifecycleOwner) { message ->
+            pgbLoading.visibility = View.GONE
             Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
         }
         sharedViewModel.selectedUserLogin.observe(viewLifecycleOwner) { userLogin ->
@@ -81,6 +82,7 @@ class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
         txtRepos.text = getString(R.string.repos, user.publicRepos)
         txtFollowers.text = getString(R.string.followers, user.followers)
         txtFollowing.text = getString(R.string.following, user.following)
+        txtGithubLink.text = getString(R.string.open_github_profile)
         txtGithubLink.setOnClickListener {
             openUrl(user.htmlUrl)
         }
@@ -95,6 +97,7 @@ class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
     }
 
     private fun openUrl(url: String) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        val fixedUrl = if (url.startsWith("http")) url else "https://$url"
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(fixedUrl)))
     }
 }
