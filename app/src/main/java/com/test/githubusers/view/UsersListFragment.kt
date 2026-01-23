@@ -2,6 +2,7 @@ package com.test.githubusers.view
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -33,6 +34,9 @@ class UsersListFragment : Fragment(R.layout.fragment_users_list) {
 
         usersViewModel.users.observe(viewLifecycleOwner) {
             adapter.updateItems(it)
+        }
+        usersViewModel.error.observe(viewLifecycleOwner) { message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
         }
         usersViewModel.loadUsers()
     }

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -50,6 +51,9 @@ class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
 
         usersViewModel.userDetails.observe(viewLifecycleOwner) {
             this.loadDetails(it)
+        }
+        usersViewModel.error.observe(viewLifecycleOwner) { message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
         }
         sharedViewModel.selectedUserLogin.observe(viewLifecycleOwner) { userLogin ->
             usersViewModel.loadUserDetails(userLogin)

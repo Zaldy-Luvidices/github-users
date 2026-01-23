@@ -19,12 +19,23 @@ class UsersViewModel : ViewModel() {
     private val _userDetails = MutableLiveData<UserDetailModel>()
     val userDetails: LiveData<UserDetailModel> = _userDetails
 
+    private val _error = MutableLiveData<String>()
+    val error: LiveData<String> = _error
+
     fun loadUsers() {
         viewModelScope.launch {
             try {
                 _users.value = repository.getUsers()
+            } catch (e: retrofit2.HttpException) {
+                _error.value = when (e.code()) {
+                    401 -> "Unauthorized. Please check API token."
+                    403 -> "Rate limit exceeded."
+                    else -> "Server error (${e.code()})"
+                }
+            } catch (e: java.io.IOException) {
+                _error.value = "Network error. Please check your internet."
             } catch (e: Exception) {
-                Log.e("", e.toString())
+                _error.value = "Unexpected error occurred."
             }
         }
     }
@@ -33,8 +44,10 @@ class UsersViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _userDetails.value = repository.getUserDetails(userLogin)
+            } catch (e: retrofit2.HttpException) {
+                _error.value = "Failed to load user details (${e.code()})"
             } catch (e: Exception) {
-                Log.e("", e.toString())
+                _error.value = "Something went wrong."
             }
         }
     }
