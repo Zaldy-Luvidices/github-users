@@ -1,11 +1,11 @@
-I have used ChatGPT to resolve below problems:
+### I have used ChatGPT to resolve below problems:
 
 #### Best approach when creating Kotlin models
 - I planned to use getters and setters but I think Kotlin has a proper approach.
 - I used Kotlin's data class since it's clean and immutable. It also has auto-generated functions such as copy(), equals(), and toString() by default.
 
 #### Best way to send an event from fragment to activity
-- My initial idea is to use interface callbacks but I tried to look for cleaner and more modern approach.
+- My initial idea is to use interface callbacks, but I tried to look for cleaner and more modern approach.
 - I used shared view models since it's lifecycle aware, survives configuration changes, and has no tight coupling.
 
 #### Best approach to load an online image
@@ -17,4 +17,9 @@ I have used ChatGPT to resolve below problems:
 - Solution: Create personal access token in my GitHub account, and add it to the authorization header of every requests.
 - This app will use the public GitHub REST API by default. To increase rate limits (optional):
   1. Create a GitHub Personal Access Token
-  2. Add it to `gradle.properties`: github.token=your_token_here
+  2. Add it to `gradle.properties`: github.token=token_here
+ 
+## Improvement Suggestions:
+- Cache users and details (e.g., via Room db), so preloaded data will be available even when offline.
+- Search and filtering feature
+- Two-pane layout for large screen and tablet suport.
