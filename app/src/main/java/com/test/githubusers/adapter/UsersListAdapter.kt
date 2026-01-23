@@ -29,7 +29,11 @@ class UsersListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = users[position]
         holder.loginText.text = user.login
-        holder.avatarImage.load(user.avatarUrl);
+        holder.avatarImage.load(user.avatarUrl) {
+            placeholder(R.drawable.ic_account_circle)
+            error(R.drawable.ic_account_circle)
+            crossfade(true)
+        }
         holder.userTypeText?.text = user.type
         holder.itemView.setOnClickListener {
             onUserClick(user.login)

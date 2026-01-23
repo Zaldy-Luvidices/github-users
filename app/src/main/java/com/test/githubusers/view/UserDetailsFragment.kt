@@ -65,7 +65,11 @@ class UserDetailsFragment : Fragment(R.layout.fragment_user_details) {
     }
 
     private fun loadDetails(user: UserDetailModel) {
-        imgAvatar.load(user.avatarUrl)
+        imgAvatar.load(user.avatarUrl) {
+            placeholder(R.drawable.ic_account_circle)
+            error(R.drawable.ic_account_circle)
+            crossfade(true)
+        }
         txtName.text = user.name ?: user.login
         txtUsername.text = user.login
         txtCompany.isVisible = !user.company.isNullOrBlank()

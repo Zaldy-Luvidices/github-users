@@ -8,6 +8,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.test.githubusers.R
 import com.test.githubusers.adapter.UsersListAdapter
@@ -33,17 +34,23 @@ class UsersListFragment : Fragment(R.layout.fragment_users_list) {
         rvUsers.layoutManager = LinearLayoutManager(view.context)
         rvUsers.adapter = adapter
         val pgbLoading: CircularProgressIndicator = view.findViewById(R.id.pgbLoading)
+        val swipeRefresh: SwipeRefreshLayout = view.findViewById(R.id.swipeRefresh)
+
+        swipeRefresh.setOnRefreshListener {
+            usersViewModel.loadUsers()
+        }
 
         usersViewModel.users.observe(viewLifecycleOwner) {
+            pgbLoading.visibility = View.GONE
+            swipeRefresh.isRefreshing = false;
             adapter.updateItems(it)
         }
-        usersViewModel.loading.observe(viewLifecycleOwner) { isLoading ->
-            pgbLoading.visibility = if (isLoading) View.VISIBLE else View.GONE
-            rvUsers.visibility = if (isLoading) View.GONE else View.VISIBLE
-        }
         usersViewModel.error.observe(viewLifecycleOwner) { message ->
+            pgbLoading.visibility = View.GONE
+            swipeRefresh.isRefreshing = false;
             Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
         }
+        pgbLoading.visibility = View.VISIBLE
         usersViewModel.loadUsers()
     }
 }

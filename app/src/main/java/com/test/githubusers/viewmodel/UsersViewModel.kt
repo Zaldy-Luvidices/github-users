@@ -18,15 +18,11 @@ class UsersViewModel : ViewModel() {
     private val _userDetails = MutableLiveData<UserDetailModel>()
     val userDetails: LiveData<UserDetailModel> = _userDetails
 
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean> = _loading
-
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> = _error
 
     fun loadUsers() {
         viewModelScope.launch {
-            _loading.value = true
             try {
                 _users.value = repository.getUsers()
             } catch (e: retrofit2.HttpException) {
@@ -39,23 +35,18 @@ class UsersViewModel : ViewModel() {
                 _error.value = "Network error. Please check your internet."
             } catch (e: Exception) {
                 _error.value = "Unexpected error occurred."
-            } finally {
-                _loading.value = false
             }
         }
     }
 
     fun loadUserDetails(userLogin: String) {
         viewModelScope.launch {
-            _loading.value = true
             try {
                 _userDetails.value = repository.getUserDetails(userLogin)
             } catch (e: retrofit2.HttpException) {
                 _error.value = "Failed to load user details (${e.code()})"
             } catch (e: Exception) {
                 _error.value = "Something went wrong."
-            } finally {
-                _loading.value = false
             }
         }
     }
